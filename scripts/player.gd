@@ -1,5 +1,7 @@
 extends Area2D
 
+signal hit
+
 # Get reference to our input mapping singleton
 @onready var input_map = $"/root/InputMapping"
 
@@ -9,6 +11,7 @@ var screen_size
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	hide()
 	
 func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO # The player's movement vector.
@@ -39,3 +42,15 @@ func _process(delta: float) -> void:
 	elif velocity.y != 0:
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_v = velocity.y > 0
+
+
+func _on_body_entered(_body: Node2D) -> void:
+	hide()
+	hit.emit()
+	# Must be deferred as we can't change physics properties on a physics callback.
+	$CollisionShape2D.set_deferred("disabled", true)
+
+func start(pos: Vector2) -> void:
+	position = pos
+	show()
+	$CollisionShape2D.disabled = false

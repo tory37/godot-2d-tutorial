@@ -25,3 +25,12 @@ func get_action_string(action: int) -> String:
 # Check if action is pressed using enum
 func is_action_pressed(action: int) -> bool:
 	return Input.is_action_pressed(get_action_string(action))
+
+# Debug utility function to log all input states
+func log_input_states() -> void:
+	print("=== INPUT STATES ===")
+	print("RIGHT: ", Input.is_action_pressed("move_right"))
+	print("LEFT: ", Input.is_action_pressed("move_left"))
+	print("UP: ", Input.is_action_pressed("move_up"))
+	print("DOWN: ", Input.is_action_pressed("move_down"))
+	print("===================")
